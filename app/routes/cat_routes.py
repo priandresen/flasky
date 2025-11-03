@@ -12,7 +12,10 @@ bp = Blueprint("cat_bp", __name__, url_prefix="/cats")
 def create_cat():
     request_body = request.get_json()
 
-    new_cat = Cat.from_dict(request_body)
+    try:
+        new_cat = Cat.from_dict(request_body)
+    except KeyError as error:
+        return {"error": f"Missing required field: {error.args[0]}"}, 400
 
     db.session.add(new_cat)
     db.session.commit()
