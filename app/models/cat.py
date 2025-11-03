@@ -23,4 +23,3 @@ class Cat(db.Model):
             color=cat_data["color"], 
             personality=cat_data["personality"])
             )
-

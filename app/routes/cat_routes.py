@@ -2,27 +2,11 @@ from flask import Blueprint, make_response, abort, Response
 from flask import request
 from app.db import db
 from app.models.cat import Cat
+from app.routes.route_utilities import validate_model
 
 
 cats_bp = Blueprint("cat_bp", __name__, url_prefix="/cats")
 
-
-
-def validate_cat(id):
-    try:
-        id = int(id)
-    except ValueError:
-            invalid = {"message": f"Cat {id} is invalid. Must be an integer"}
-            abort(make_response(invalid, 400))
-
-    query = db.select(Cat).where(Cat.id == id)
-    cat = db.session.get(Cat, id)
-
-    if not cat:
-        not_found = {"message": f"Cat with id {id} not found"}
-        abort(make_response(not_found, 404))
-
-    return cat
 
 @cats_bp.post("")
 def create_cat():
@@ -76,13 +60,13 @@ def get_all_cats():
 @cats_bp.get("/<id>")
 def get_single_cat(id):
 
-    cat = validate_cat(id) 
+    cat = validate_model(Cat, id)
 
     return cat.to_dict()
 
 @cats_bp.put("/<id>")
 def replace_cat(id):
-    cat = validate_cat(id)
+    cat = validate_model(Cat, id)
 
     request_body = request.get_json()
 
@@ -97,7 +81,7 @@ def replace_cat(id):
 
 @cats_bp.delete("/<id>")
 def delete_cat(id):
-    cat = validate_cat(id)
+    cat = validate_model(Cat, id)
 
     db.session.delete(cat)
     db.session.commit()
