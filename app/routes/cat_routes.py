@@ -15,7 +15,7 @@ def create_cat():
     try:
         new_cat = Cat.from_dict(request_body)
     except KeyError as error:
-        return {"error": f"Missing required field: {error.args[0]}"}, 400
+        return {"error": f"Invalid request: missing: {error.args[0]}"}, 400
 
     db.session.add(new_cat)
     db.session.commit()
