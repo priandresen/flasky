@@ -7,3 +7,11 @@ class Cat(db.Model):
     name: Mapped[str]
     color: Mapped[str] 
     personality: Mapped[str] 
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "color": self.color,
+            "personality": self.personality
+            }
