@@ -1,7 +1,7 @@
 from flask import Flask
 from .db import db, migrate
 from .models.cat import Cat
-from .routes.cat_routes import cats_bp
+from .routes.cat_routes import bp as cats_bp
 import os
 
 def create_app(config=None):

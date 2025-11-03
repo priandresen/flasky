@@ -1,14 +1,14 @@
-from flask import Blueprint, make_response, abort, Response
+from flask import Blueprint, Response
 from flask import request
 from app.db import db
 from app.models.cat import Cat
 from app.routes.route_utilities import validate_model
 
 
-cats_bp = Blueprint("cat_bp", __name__, url_prefix="/cats")
+bp = Blueprint("cat_bp", __name__, url_prefix="/cats")
 
 
-@cats_bp.post("")
+@bp.post("")
 def create_cat():
     request_body = request.get_json()
 
@@ -19,7 +19,7 @@ def create_cat():
 
     return new_cat.to_dict(), 201
 
-@cats_bp.get("")
+@bp.get("")
 def get_all_cats():
 
     name_param = request.args.get("name") #example of getting a query parameter, not used here
@@ -57,14 +57,14 @@ def get_all_cats():
 
     return response
 
-@cats_bp.get("/<id>")
+@bp.get("/<id>")
 def get_single_cat(id):
 
     cat = validate_model(Cat, id)
 
     return cat.to_dict()
 
-@cats_bp.put("/<id>")
+@bp.put("/<id>")
 def replace_cat(id):
     cat = validate_model(Cat, id)
 
@@ -79,7 +79,7 @@ def replace_cat(id):
 
     return Response(status=204, mimetype="application/json")
 
-@cats_bp.delete("/<id>")
+@bp.delete("/<id>")
 def delete_cat(id):
     cat = validate_model(Cat, id)
 
