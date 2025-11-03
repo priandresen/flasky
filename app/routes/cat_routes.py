@@ -28,11 +28,7 @@ def validate_cat(id):
 def create_cat():
     request_body = request.get_json()
 
-    new_cat = Cat(
-        name=request_body["name"],
-        color=request_body["color"],
-        personality=request_body["personality"]
-    )
+    new_cat = Cat.from_dict(request_body)
 
     db.session.add(new_cat)
     db.session.commit()

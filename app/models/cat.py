@@ -15,3 +15,12 @@ class Cat(db.Model):
             "color": self.color,
             "personality": self.personality
             }
+    
+    @classmethod
+    def from_dict(cls, cat_data):
+        
+        return (cls(name=cat_data["name"], 
+            color=cat_data["color"], 
+            personality=cat_data["personality"])
+            )
+
